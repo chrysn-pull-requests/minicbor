@@ -14,14 +14,16 @@ build         = "build.rs"
 features = ["std", "derive", "half"]
 
 [features]
-full   = ["std", "derive", "half"]
-alloc  = ["minicbor-derive?/alloc"]
-std    = ["alloc", "minicbor-derive?/std"]
-derive = ["minicbor-derive"]
+full     = ["std", "derive", "half"]
+alloc    = ["minicbor-derive?/alloc"]
+std      = ["alloc", "minicbor-derive?/std"]
+derive   = ["minicbor-derive"]
+heapless = ["dep:heapless"]
 
 [dependencies]
 minicbor-derive = { version = "0.15.0", path = "../minicbor-derive", optional = true }
 half            = { version = "2.4.0", default-features = false, optional = true }
+heapless        = { version = "0.8.0", default-features = false, optional = true }
 
 [dev-dependencies]
 minicbor = { path = ".", features = ["std", "half"] }
