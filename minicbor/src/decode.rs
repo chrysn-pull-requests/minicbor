@@ -748,3 +748,16 @@ impl<'b, C, T: Decode<'b, C>> Decode<'b, C> for core::ops::Bound<T> {
     }
 }
 
+#[cfg(feature = "heapless")]
+impl<'b, C, const N: usize> Decode<'b, C> for heapless::String<N> {
+    fn decode(d: &mut Decoder<'b>, _: &mut C) -> Result<Self, Error> {
+        let s = d.str()?;
+        heapless::String::try_from(s).map_err(|()| {
+            #[cfg(feature = "alloc")]
+            let msg = &alloc::format!("string has more than {N} bytes");
+            #[cfg(not(feature = "alloc"))]
+            let msg = "string has too many bytes";
+            Error::message(msg)
+        })
+    }
+}

@@ -1081,3 +1081,19 @@ where
         Ok(())
     }
 }
+
+#[cfg(feature = "heapless")]
+impl<C, const N: usize> Encode<C> for heapless::String<N> {
+    fn encode<W: Write>(&self, e: &mut Encoder<W>, ctx: &mut C) -> Result<(), Error<W::Error>> {
+        let s: &str = &*self;
+        s.encode(e, ctx)
+    }
+}
+
+#[cfg(feature = "heapless")]
+impl<C, const N: usize> CborLen<C> for heapless::String<N> {
+    fn cbor_len(&self, ctx: &mut C) -> usize {
+        let s: &str = &*self;
+        s.cbor_len(ctx)
+    }
+}
