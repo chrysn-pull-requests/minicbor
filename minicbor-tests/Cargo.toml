@@ -11,9 +11,11 @@ description = "minicbor test suite"
 alloc  = ["minicbor/alloc"]
 std    = ["alloc", "minicbor/std", "minicbor/derive"]
 derive = ["alloc", "minicbor/derive"]
+heapless = ["dep:heapless", "minicbor/heapless"]
 
 [dependencies]
 arbitrary = { version = "1.3.2", features = ["derive"] }
+heapless = { version = "0.8.0", default-features = false, optional = true }
 minicbor  = { path = "../minicbor", features = ["half"] }
 
 [dev-dependencies]

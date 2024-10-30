@@ -259,3 +259,11 @@ fn regular_enum() {
     assert!(d.skip().unwrap_err().is_end_of_input())
 }
 
+#[cfg(feature = "heapless")]
+#[test]
+fn heapless() {
+    let original = heapless::String::<20>::try_from("BOR").unwrap();
+    let bytes = minicbor::to_vec(&original).unwrap();
+    assert_eq!(&b"cBOR"[..], &bytes[..]);
+    assert_eq!(original, minicbor::decode::<heapless::String::<20>>(&bytes).unwrap());
+}
